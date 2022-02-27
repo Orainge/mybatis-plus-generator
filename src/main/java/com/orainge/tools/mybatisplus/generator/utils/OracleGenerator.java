@@ -62,7 +62,7 @@ public class OracleGenerator extends MysqlGenerator {
         } else {
             jdbcUrlExecute = jdbcUrl;
         }
-        execute(tables, tablePrefix,true, author, projectPath, outputDir, jdbcUrlExecute, driverName, username, password, packageName);
+        execute(tables, tablePrefix, true, author, projectPath, outputDir, jdbcUrlExecute, driverName, username, password, packageName);
     }
 
     protected DataSourceConfig buildDataSourceConfig(String jdbcUrl, String driverName, String username, String password) {

@@ -15,5 +15,6 @@
         <root level="debug">
             <appender-ref ref="Console"/>
         </root>
+        <logger name="com.baomidou.mybatisplus.generator" level="INFO"/>
     </Loggers>
 </Configuration>

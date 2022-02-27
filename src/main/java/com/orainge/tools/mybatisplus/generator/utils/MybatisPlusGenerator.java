@@ -1,7 +1,6 @@
 package com.orainge.tools.mybatisplus.generator.utils;
 
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.LikeTable;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
@@ -23,24 +22,15 @@ public abstract class MybatisPlusGenerator {
                            String jdbcUrl, String driverName,
                            String username, String password,
                            String packageName) {
-        logger.info("==========================开始创建任务==========================");
+        logger.info("创建任务 - 开始");
         for (int i = 1; i <= tables.length; i++) {
             String table = tables[i - 1];
-            logger.info("当前处理的表 [" + i + "/" + tables.length + "]: " + table);
 
             // 代码生成器
             AutoGenerator mpg = new AutoGenerator();
             mpg.setGlobalConfig(buildGlobalConfig(projectPath, outputDir, author));
             mpg.setDataSource(buildDataSourceConfig(jdbcUrl, driverName, username, password)); // 数据源配置
             mpg.setPackageInfo(buildPackageConfig(packageName)); // 包配置
-
-            // 自定义配置
-            mpg.setCfg(new InjectionConfig() {
-                @Override
-                public void initMap() {
-                    // to do nothing
-                }
-            });
 
             // 配置模板
             TemplateConfig templateConfig = new TemplateConfig();
@@ -57,8 +47,10 @@ public abstract class MybatisPlusGenerator {
             mpg.setStrategy(buildStrategyConfig(table, tablePrefix));
             mpg.setTemplateEngine(new FreemarkerTemplateEngine());
             mpg.execute();
+
+            logger.info("[" + i + "/" + tables.length + "] 处理结束: " + table);
         }
-        logger.info("==========================完成创建任务==========================");
+        logger.info("创建任务 - 结束");
     }
 
     /**
@@ -76,7 +68,7 @@ public abstract class MybatisPlusGenerator {
         gc.setEnableCache(false); // XML 二级缓存
         gc.setBaseResultMap(true); //生成默认 Result Map
         gc.setBaseColumnList(true); // 生成java mysql字段映射
-        gc.setSwagger2(true); // 实体属性 Swagger2 注解
+//        gc.setSwagger2(true); // 实体属性 Swagger2 注解
 
         // 自定义文件命名
         // %s 会自动填充表实体属性！
