@@ -1,6 +1,6 @@
 package com.orainge.tools.mybatisplus.generator;
 
-import com.orainge.tools.mybatisplus.generator.init.MysqlGenerator;
+import com.orainge.tools.mybatisplus.generator.utils.MysqlGenerator;
 
 public class DefaultMysqlGenerator extends MysqlGenerator {
     {

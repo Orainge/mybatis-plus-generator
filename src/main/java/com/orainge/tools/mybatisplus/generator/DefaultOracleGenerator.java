@@ -1,6 +1,6 @@
 package com.orainge.tools.mybatisplus.generator;
 
-import com.orainge.tools.mybatisplus.generator.init.OracleGenerator;
+import com.orainge.tools.mybatisplus.generator.utils.OracleGenerator;
 
 public class DefaultOracleGenerator extends OracleGenerator {
     {

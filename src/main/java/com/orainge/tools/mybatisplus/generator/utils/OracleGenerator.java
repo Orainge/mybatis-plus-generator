@@ -1,4 +1,4 @@
-package com.orainge.tools.mybatisplus.generator.init;
+package com.orainge.tools.mybatisplus.generator.utils;
 
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.converts.OracleTypeConvert;
@@ -43,6 +43,8 @@ public class OracleGenerator extends MysqlGenerator {
     // 数据库 JDBC 地址
     protected String jdbcUrl = null;
 
+    // 数据库表前缀 (生成的文件将会去除该前缀)
+    protected String tablePrefix = "";
 
     // 待生成的数据库表
     protected String[] tables = {
@@ -60,7 +62,7 @@ public class OracleGenerator extends MysqlGenerator {
         } else {
             jdbcUrlExecute = jdbcUrl;
         }
-        execute(tables, true, author, projectPath, outputDir, jdbcUrlExecute, driverName, username, password, packageName);
+        execute(tables, tablePrefix,true, author, projectPath, outputDir, jdbcUrlExecute, driverName, username, password, packageName);
     }
 
     protected DataSourceConfig buildDataSourceConfig(String jdbcUrl, String driverName, String username, String password) {
