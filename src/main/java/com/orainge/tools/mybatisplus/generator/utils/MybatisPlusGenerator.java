@@ -1,12 +1,17 @@
 package com.orainge.tools.mybatisplus.generator.utils;
 
 import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.LikeTable;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Mybatis Plus 代码创建器
@@ -46,6 +51,29 @@ public abstract class MybatisPlusGenerator {
             // 策略配置
             mpg.setStrategy(buildStrategyConfig(table, tablePrefix));
             mpg.setTemplateEngine(new FreemarkerTemplateEngine());
+
+
+            // 注入自定义配置
+            InjectionConfig abc = new InjectionConfig() {
+                @Override
+                public void initMap() {
+
+                }
+            };
+
+            //自定义文件输出位置（非必须）
+            List<FileOutConfig> fileOutList = new ArrayList<>();
+            fileOutList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    return projectPath + "/src/main/resources/mappers/" + tableInfo.getEntityName() + "Mapper.xml";
+                }
+            });
+            abc.setFileOutConfigList(fileOutList);
+
+            mpg.setCfg(abc);
+
+            // 执行生成操作
             mpg.execute();
 
             logger.info("[" + i + "/" + tables.length + "] 处理结束: " + table);
