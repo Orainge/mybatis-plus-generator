@@ -1,16 +1,15 @@
-package com.orainge.tools.mybatisplus.generator.init;
+package com.orainge.tools.mybatisplus.generator.utils;
 
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
+import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.converts.OracleTypeConvert;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 
 /**
- * MySQL 数据库代码生成器
+ * Oracle 数据库代码生成器
  *
  * @author orainge
  */
-public class MysqlGenerator extends MybatisPlusGenerator {
+public class OracleGenerator extends MysqlGenerator {
     // 包名
     protected String packageName = "com.orainge.tools.mybatisplus.generator";
 
@@ -24,16 +23,16 @@ public class MysqlGenerator extends MybatisPlusGenerator {
     protected String author = "";
 
     // 数据库驱动名称
-    protected String driverName = "com.mysql.cj.jdbc.Driver";
+    protected String driverName = "oracle.jdbc.OracleDriver";
 
-    // MySQL IP 地址
+    // Oracle IP 地址
     protected String host = "127.0.0.1";
 
-    // MySQL 端口
-    protected String port = "3306";
+    // Oracle 端口
+    protected String port = "1650";
 
-    // 数据库名称
-    protected String database = "database_name";
+    // Oracle 服务名
+    protected String serviceName = "service_name";
 
     // 数据库用户名
     protected String username = "username";
@@ -44,6 +43,9 @@ public class MysqlGenerator extends MybatisPlusGenerator {
     // 数据库 JDBC 地址
     protected String jdbcUrl = null;
 
+    // 数据库表前缀 (生成的文件将会去除该前缀)
+    protected String tablePrefix = "";
+
     // 待生成的数据库表
     protected String[] tables = {
             "TABLE_1",
@@ -53,21 +55,23 @@ public class MysqlGenerator extends MybatisPlusGenerator {
     public void generate() {
         String jdbcUrlExecute;
         if (jdbcUrl == null || "".equals(jdbcUrl)) {
-            jdbcUrlExecute = "jdbc:mysql://" + host + ":" + port + "/" + database
-                    + "?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8";
+            jdbcUrlExecute = "jdbc:oracle:thin:@(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = "
+                    + host + ")(PORT = " + port +
+                    "))(LOAD_BALANCE = yes)(CONNECT_DATA =(SERVICE_NAME = "
+                    + serviceName + "))))";
         } else {
             jdbcUrlExecute = jdbcUrl;
         }
-        execute(tables, true, author, projectPath, outputDir, jdbcUrlExecute, driverName, username, password, packageName);
+        execute(tables, tablePrefix, true, author, projectPath, outputDir, jdbcUrlExecute, driverName, username, password, packageName);
     }
 
     protected DataSourceConfig buildDataSourceConfig(String jdbcUrl, String driverName, String username, String password) {
         DataSourceConfig dsc = super.buildDataSourceConfig(jdbcUrl, driverName, username, password);
-        dsc.setTypeConvert(new MySqlTypeConvert() {
+        dsc.setTypeConvert(new OracleTypeConvert() {
             @Override
             public DbColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
                 //将数据库中timestamp转换成date
-                if (fieldType.toLowerCase().contains("timestamp")) {
+                if (fieldType.toLowerCase().contains("date")) {
                     return DbColumnType.DATE;
                 }
                 return (DbColumnType) super.processTypeConvert(globalConfig, fieldType);
